@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="sh_account_edit_invoice_document" inherit_id="account.report_invoice_document">
+		    
+		    <xpath expr="//t[1]/div[hasclass('page')]/h2/span[8]" position="after">
+		    
+				 	<span style="margin-left:40px" t-if="o.type == 'out_invoice'">
+				 		New Invoice<![CDATA[&nbsp;]]>
+				 	</span>
+	                <span style="margin-left:40px" t-if="o.type == 'out_refund'">
+	                	New Refund<![CDATA[&nbsp;]]>
+	                </span>
+	                <span t-field="o.new_accnt_sequence"/>
+               
+			</xpath>
+		    
+		</template>
+	
+	</data>
+</odoo>

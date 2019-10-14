@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+	<data>
+	
+ 		<record id="sh_account_invoice_edit_sequence_form_inherit" model="ir.ui.view">
+			<field name="name">account.invoice.edit.sequence.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+			
+	 			<field name="number" position="replace">
+ 					<field name="account_edit_sequence" invisible="1" />
+ 					<field name="number" class="oe_inline" attrs="{'invisible': [('state','in',('draft',))], 'readonly': [('account_edit_sequence','=',False)] }"/>  			
+ 	 			</field>
+ 	 			
+ 	 			<field name="fiscal_position_id" position="after">
+ 	 				<field name="new_accnt_sequence"/>
+ 	 			</field>
+			</field>
+		</record>
+	
+		<record id="sh_account_invoice_edit_sequence_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+			
+	 			<xpath expr="//tree/field[@name='user_id']" position="after">
+	 				<field name="new_accnt_sequence"/>
+	 			</xpath>
+	 			
+			</field>
+		</record>
+	
+ 		<record id="sh_account_invoice_supplier_edit_sequence_form_inherit" model="ir.ui.view">
+			<field name="name">account.invoice.edit.sequence.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form"/>
+			<field name="arch" type="xml">
+			
+	 			<field name="number" position="replace">
+ 					<field name="account_edit_sequence" invisible="1" />
+ 					<field name="number" class="oe_inline" attrs="{'invisible': [('state', '=', 'draft')] , 'readonly': [('account_edit_sequence','=',False)] }"/>  			
+ 	 			</field>
+ 	 			
+			</field>
+		</record>
+		
+		<record id="sh_account_view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="arch" type="xml">
+	            <field name="journal_id" position="after">
+	            	<field name="new_accnt_sequence" />
+	            </field>
+	            
+	            <xpath expr="//search/filter[@name='refunds']" position="after"> 
+	            	<separator/>
+	            	<filter name="inv_accnt_sequence" string="New Sequence" domain="['&amp;', ('state','in',['open','paid']),('type','in',('out_invoice','out_refund'))]"/>
+	            </xpath>
+	            
+	            <xpath expr="//search/group/filter[@name='status']" position="after"> 
+	            	<filter name="group_by_new_accnt_sequence" domain="[]" string="New Sequence" context="{'group_by':'new_accnt_sequence'}"/>
+	            </xpath>
+            </field>
+		</record>
+		
+		<!-- <record id="sh_account_account_move" model="ir.ui.view">
+            <field name="name">Account Move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+            	<field name="date" position="after">
+	            	<field name="new_move_sequence"/>
+	            </field>
+            </field>
+        </record> -->
+            
+            
+	</data>	
+</odoo>
